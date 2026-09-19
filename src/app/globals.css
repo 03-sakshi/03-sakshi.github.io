@@ -1,0 +1,165 @@
+@import "tailwindcss";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+:root {
+  /* ---- Surfaces ---- */
+  --background: #f8fafc;
+  --background-elevated: #ffffff;
+  --foreground: #0b1120;
+  --muted: #475569;
+  --border: #e2e8f0;
+  --card: #ffffff;
+
+  /* ---- Brand palette ---- */
+  --primary: #6366f1;
+  --primary-foreground: #ffffff;
+  --secondary: #14b8a6;
+  --accent: #f59e0b;
+
+  --radius: 0.9rem;
+}
+
+.dark {
+  --background: #0b1120;
+  --background-elevated: #111827;
+  --foreground: #f8fafc;
+  --muted: #94a3b8;
+  --border: rgba(148, 163, 184, 0.12);
+  --card: rgba(17, 24, 39, 0.6);
+
+  --primary: #6366f1;
+  --primary-foreground: #ffffff;
+  --secondary: #14b8a6;
+  --accent: #f59e0b;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-background-elevated: var(--background-elevated);
+  --color-foreground: var(--foreground);
+  --color-muted: var(--muted);
+  --color-border: var(--border);
+  --color-card: var(--card);
+
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-accent: var(--accent);
+
+  --radius-lg: var(--radius);
+  --radius-md: calc(var(--radius) - 4px);
+  --radius-sm: calc(var(--radius) - 8px);
+
+  --font-display: var(--font-space-grotesk);
+  --font-sans: var(--font-inter);
+  --font-mono: var(--font-jetbrains-mono);
+
+  --animate-float: float 8s ease-in-out infinite;
+  --animate-pulse-slow: pulse-slow 3s ease-in-out infinite;
+  --animate-marquee: marquee 30s linear infinite;
+
+  @keyframes float {
+    0%, 100% { transform: translate(0, 0px) scale(1); }
+    50% { transform: translate(10px, -20px) scale(1.03); }
+  }
+  @keyframes pulse-slow {
+    0%, 100% { opacity: 0.5; }
+    50% { opacity: 1; }
+  }
+  @keyframes marquee {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+  }
+}
+
+* {
+  border-color: var(--border);
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-sans);
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+::selection {
+  background: var(--primary);
+  color: white;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+  width: 10px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: color-mix(in oklab, var(--primary) 40%, transparent);
+  border-radius: 999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: color-mix(in oklab, var(--primary) 65%, transparent);
+}
+
+/* Glassmorphism helper */
+.glass {
+  background: color-mix(in oklab, var(--background-elevated) 55%, transparent);
+  backdrop-filter: blur(16px) saturate(140%);
+  -webkit-backdrop-filter: blur(16px) saturate(140%);
+  border: 1px solid var(--border);
+}
+
+/* Gradient text */
+.text-gradient {
+  background: linear-gradient(115deg, var(--primary) 10%, var(--secondary) 60%, var(--accent) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* Signature: ladder-logic rail divider (nods to real PLC/Ladder-Logic experience) */
+.ladder-rail {
+  position: relative;
+  height: 100%;
+  width: 2px;
+  background: linear-gradient(
+    to bottom,
+    transparent 0%,
+    var(--border) 8%,
+    var(--border) 92%,
+    transparent 100%
+  );
+}
+
+/* Focus visibility for accessibility */
+:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+/* Reduced motion respect */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Custom cursor (desktop only, applied via JS class on <html>) */
+.custom-cursor-active {
+  cursor: none;
+}
+.custom-cursor-active a,
+.custom-cursor-active button {
+  cursor: none;
+}
